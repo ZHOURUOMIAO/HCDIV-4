@@ -8,28 +8,15 @@
       height: 600px;
     }
     h1 {
-      text-align: center;
+      text-align: center; /* 将标题居中 */
       font-family: Arial, sans-serif;
       font-size: 24px;
-    }
-    .legend {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      background-color: rgba(255, 255, 255, 0.7);
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <h1>Population distribution map of Singapore (2023)</h1>
+  <h1>Population distribution map of Singapore (2023)</h1> <!-- 添加标题 -->
   <svg id="map"></svg>
-  <div class="legend">
-    <div>Population</div>
-    <div id="color-bar" style="width: 200px; height: 20px;"></div>
-  </div>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
     let width = 1000, height = 600;
@@ -51,7 +38,7 @@
       // 基于人口数据的颜色映射
       let colorScale = d3.scaleQuantize()
         .domain([0, d3.max(mapData, d => d.popdata)])
-        .range(d3.schemeGreens[9]);
+        .range(d3.schemeGreens[9]);  // 使用绿色渐变
 
       // 地图投影
       let projection = d3.geoMercator()
@@ -68,7 +55,7 @@
           .append("path")
           .attr("d", geopath)
           .attr("stroke", "black")
-          .attr("fill", d => colorScale(d.popdata))
+          .attr("fill", d => colorScale(d.popdata)) // 根据人口填充颜色
           .on("mouseover", function(event, d) {
             let tooltip = d3.select("body").append("div")
               .style("position", "absolute")
@@ -83,40 +70,8 @@
           .on("mouseout", function() {
             d3.select("body").select("div").remove();
           });
-
-      // 创建比例尺
-      let scale = d3.scaleLinear()
-          .domain([0, 1000000])
-          .range([0, 150]);
-
-      let scaleGroup = svg.append("g")
-          .attr("transform", "translate(" + (width - 200) + ", " + (height - 40) + ")");
-
-      scaleGroup.append("line")
-          .attr("x1", 0)
-          .attr("y1", 0)
-          .attr("x2", scale(1000000))
-          .attr("y2", 0)
-          .attr("stroke", "black")
-          .attr("stroke-width", 2);
-
-      scaleGroup.append("text")
-          .attr("x", scale(1000000) + 10)
-          .attr("y", 5)
-          .text("1 km")
-          .style("font-size", "12px");
-
-      // 添加颜色条
-      let colorBar = d3.select("#color-bar");
-      let legend = d3.legendColor()
-          .scale(colorScale)
-          .shapeWidth(30)
-          .orient("horizontal")
-          .labelFormat(d3.format(".0f"));
-      
-      colorBar.call(legend);
     });
+
   </script>
 </body>
 </html>
-
