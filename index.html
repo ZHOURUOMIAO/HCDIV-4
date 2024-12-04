@@ -4,22 +4,23 @@
   <meta charset="UTF-8">
   <style>
     #map {
-      width: 100%;
-      height: 600px;
+      width: 100%;  /* 保持地图宽度为100% */
+      height: 800px;  /* 增大地图的高度 */
     }
     h1 {
       text-align: center; /* 将标题居中 */
       font-family: Arial, sans-serif;
-      font-size: 24px;
+      font-size: 36px; /* 增大标题字体 */
+      margin-top: 30px; /* 增加顶部间距 */
     }
   </style>
 </head>
 <body>
-  <h1>Population distribution map of Singapore (2023)</h1> <!-- 添加标题 -->
+  <h1>Population distribution map of Singapore (2023)</h1> <!-- 增大标题 -->
   <svg id="map"></svg>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
-    let width = 1000, height = 600;
+    let width = 1000, height = 800;  /* 增大地图的高度 */
 
     let svg = d3.select("#map")
         .attr("viewBox", "0 0 " + width + " " + height);
@@ -43,7 +44,7 @@
       // 地图投影
       let projection = d3.geoMercator()
           .center([103.851959, 1.290270])
-          .fitExtent([[20, 20], [980, 580]], data[0]);
+          .fitExtent([[20, 20], [980, 780]], data[0]);  /* 调整地图的适配区域，增大高度 */
 
       let geopath = d3.geoPath().projection(projection);
 
@@ -75,3 +76,4 @@
   </script>
 </body>
 </html>
+
