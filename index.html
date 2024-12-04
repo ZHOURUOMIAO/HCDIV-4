@@ -2,72 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Population distribution map of Singapore (2023)</title>
   <style>
-    #map {
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .title {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    .color-bar {
+      height: 10px;
       width: 100%;
-      height: 600px;
+      background: linear-gradient(to right, lightgreen, darkgreen);
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-<svg id="map"></svg>
-<script src="https://d3js.org/d3.v7.min.js"></script>
+  <div class="title">Population distribution map of Singapore (2023)</div>
+  <div class="color-bar"></div>
 
-<script>
-let width = 1000, height = 600;
+  <svg width="1000" height="600"></svg>
+  
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+    let width = 1000, height = 600;
 
-let svg = d3.select("#map")
-    .attr("viewBox", "0 0 " + width + " " + height);
+    let svg = d3.select("svg")
+      .attr("viewBox", "0 0 " + width + " " + height);
 
-// Load external data and boot
-Promise.all([d3.json("sgmap.json"), d3.csv("population2023.csv")]).then(data => {
-  let mapData = data[0].features;
-  let popData = data[1];
+    Promise.all([d3.json("sgmap.json"), d3.csv("population2023.csv")]).then(data => {
+      let mapData = data[0].features;
+      let popData = data[1];
 
-  // Merge population data with map data
-  mapData.forEach(d => {
-    let subzone = popData.find(e => e.Subzone.toUpperCase() == d.properties.Name);
-    d.popdata = (subzone != undefined) ? parseInt(subzone.Population) : 0;
-  });
-
-  // Color scale based on population
-  let colorScale = d3.scaleQuantize()
-    .domain([0, d3.max(mapData, d => d.popdata)])
-    .range(d3.schemeGreens[9]);  // Use green shades
-
-  // Map and projection
-  let projection = d3.geoMercator()
-      .center([103.851959, 1.290270])
-      .fitExtent([[20, 20], [980, 580]], data[0]);
-
-  let geopath = d3.geoPath().projection(projection);
-
-  svg.append("g")
-      .attr("id", "districts")
-      .selectAll("path")
-      .data(mapData)
-      .enter()
-      .append("path")
-      .attr("d", geopath)
-      .attr("stroke", "black")
-      .attr("fill", d => colorScale(d.popdata)) // Fill based on population
-      .on("mouseover", function(event, d) {
-        let tooltip = d3.select("body").append("div")
-          .style("position", "absolute")
-          .style("background", "rgba(255, 255, 255, 0.8)")
-          .style("padding", "5px")
-          .style("border", "1px solid #ccc")
-          .style("border-radius", "5px")
-          .text(d.properties.Name + ": " + d.popdata + " people");
-        tooltip.style("left", (event.pageX + 10) + "px")
-          .style("top", (event.pageY + 10) + "px");
-      })
-      .on("mouseout", function() {
-        d3.select("body").select("div").remove();
-      });
-});
-
-</script>
-
-</body>
-</html>
+      // Merge pop data with map data
+      mapData.forEach(d => {
+    
