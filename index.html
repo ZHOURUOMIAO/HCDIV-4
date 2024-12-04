@@ -8,14 +8,14 @@
       height: 600px;
     }
     h1 {
-      text-align: center; /* 将标题居中 */
+      text-align: center;
       font-family: Arial, sans-serif;
       font-size: 24px;
     }
   </style>
 </head>
 <body>
-  <h1>Population distribution map of Singapore (2023)</h1> <!-- 添加标题 -->
+  <h1>Population distribution map of Singapore (2023)</h1>
   <svg id="map"></svg>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
@@ -38,7 +38,7 @@
       // 基于人口数据的颜色映射
       let colorScale = d3.scaleQuantize()
         .domain([0, d3.max(mapData, d => d.popdata)])
-        .range(d3.schemeGreens[9]);  // 使用绿色渐变
+        .range(d3.schemeGreens[9]);
 
       // 地图投影
       let projection = d3.geoMercator()
@@ -55,7 +55,7 @@
           .append("path")
           .attr("d", geopath)
           .attr("stroke", "black")
-          .attr("fill", d => colorScale(d.popdata)) // 根据人口填充颜色
+          .attr("fill", d => colorScale(d.popdata))
           .on("mouseover", function(event, d) {
             let tooltip = d3.select("body").append("div")
               .style("position", "absolute")
@@ -70,8 +70,30 @@
           .on("mouseout", function() {
             d3.select("body").select("div").remove();
           });
-    });
 
+      // 添加比例尺
+      let scale = d3.scaleLinear()
+          .domain([0, 1000000]) // 根据你的地图比例尺调整
+          .range([0, 200]); // 比例尺的长度
+
+      let scaleGroup = svg.append("g")
+          .attr("transform", "translate(50, 550)");
+
+      scaleGroup.append("line")
+          .attr("x1", 0)
+          .attr("y1", 0)
+          .attr("x2", scale(1000000)) // 使用比例尺的范围
+          .attr("y2", 0)
+          .attr("stroke", "black")
+          .attr("stroke-width", 2);
+
+      scaleGroup.append("text")
+          .attr("x", scale(1000000) + 10)
+          .attr("y", 5)
+          .text("1 km") // 比例尺的单位
+          .style("font-size", "12px");
+    });
   </script>
 </body>
 </html>
+
