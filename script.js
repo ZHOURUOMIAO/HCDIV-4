@@ -1,37 +1,43 @@
-const map = L.map('map').setView([1.3521, 103.8198], 11);
+<script>
+let width = 1000, height = 600;
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+let svg = d3.select("svg")
+    .attr("viewBox", "0 0 " + width + " " + height)
 
-d3.json('https://raw.githubusercontent.com/ZHOURUOMIAO/HCDIV-4/main/sgmap.json').then(function(data) {
-    L.geoJSON(data, {
-        style: function (feature) {
-            let population = getPopulation(feature.properties.name);
-            return {
-                color: getColor(population),
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.7
-            };
-        },
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup("Region: " + feature.properties.name + "<br>Population: " + getPopulation(feature.properties.name));
-        }
-    }).addTo(map);
-});
+// Load external data and boot
+Promise.all([d3.json("sgmap.json"), d3.csv("population2023.csv")]).then(data => {
 
-function getPopulation(region) {
-    const populationData = {
-        "Central": 120000, 
-        "East": 150000,
-        "North": 110000,
-        "West": 140000
-    };
-    return populationData[region] || 0;
-}
+let mapData = data[0].features;
+let popData = data[1];
 
-function getColor(population) {
-    return population > 150000 ? '#800026' :
-           population > 120000 ? '#BD0026' :
-           population > 100000 ? '#E31A1C' :
-           '#FFEDA0';
-}
+// Merge pop data with map data
+mapData.forEach(d => {
+  let subzone = popData.find(e => e.Subzone.toUpperCase() == d.properties.Name);
+  d.popdata = (subzone != undefined) ? parseInt(subzone.Population) : 0;
+})
+
+console.log(mapData);
+
+// Color scale based on population
+let colorScale = d3.scaleSequential(d3.interpolateGreens)
+    .domain([0, d3.max(mapData, d => d.popdata)]);
+
+// Map and projection
+let projection = d3.geoMercator()
+    .center([103.851959, 1.290270])
+    .fitExtent([[20, 20], [980, 580]], data[0]);
+
+let geopath = d3.geoPath().projection(projection);
+
+svg.append("g")
+    .attr("id", "districts")
+    .selectAll("path")
+    .data(mapData)
+    .enter()
+    .append("path")
+    .attr("d", geopath)
+    .attr("stroke", "black")
+    .attr("fill", d => colorScale(d.popdata)); // Apply color based on population
+})
+
+</script>
