@@ -12,11 +12,24 @@
       font-family: Arial, sans-serif;
       font-size: 24px;
     }
+    .legend {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
   <h1>Population distribution map of Singapore (2023)</h1>
   <svg id="map"></svg>
+  <div class="legend">
+    <div>Population</div>
+    <div id="color-bar" style="width: 200px; height: 20px;"></div>
+  </div>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
     let width = 1000, height = 600;
@@ -71,18 +84,18 @@
             d3.select("body").select("div").remove();
           });
 
-      // 添加比例尺
+      // 创建比例尺
       let scale = d3.scaleLinear()
-          .domain([0, 1000000]) // 根据你的地图比例尺调整
-          .range([0, 200]); // 比例尺的长度
+          .domain([0, 1000000])
+          .range([0, 150]);
 
       let scaleGroup = svg.append("g")
-          .attr("transform", "translate(50, 550)");
+          .attr("transform", "translate(" + (width - 200) + ", " + (height - 40) + ")");
 
       scaleGroup.append("line")
           .attr("x1", 0)
           .attr("y1", 0)
-          .attr("x2", scale(1000000)) // 使用比例尺的范围
+          .attr("x2", scale(1000000))
           .attr("y2", 0)
           .attr("stroke", "black")
           .attr("stroke-width", 2);
@@ -90,8 +103,18 @@
       scaleGroup.append("text")
           .attr("x", scale(1000000) + 10)
           .attr("y", 5)
-          .text("1 km") // 比例尺的单位
+          .text("1 km")
           .style("font-size", "12px");
+
+      // 添加颜色条
+      let colorBar = d3.select("#color-bar");
+      let legend = d3.legendColor()
+          .scale(colorScale)
+          .shapeWidth(30)
+          .orient("horizontal")
+          .labelFormat(d3.format(".0f"));
+      
+      colorBar.call(legend);
     });
   </script>
 </body>
