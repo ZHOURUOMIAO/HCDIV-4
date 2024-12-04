@@ -1,43 +1,65 @@
-<script>
 let width = 1000, height = 600;
-
 let svg = d3.select("svg")
-    .attr("viewBox", "0 0 " + width + " " + height)
+    .attr("viewBox", "0 0 " + width + " " + height);
 
-// Load external data and boot
 Promise.all([d3.json("sgmap.json"), d3.csv("population2023.csv")]).then(data => {
+    let mapData = data[0].features;
+    let popData = data[1];
 
-let mapData = data[0].features;
-let popData = data[1];
+    mapData.forEach(d => {
+        let subzone = popData.find(e => e.Subzone.toUpperCase() == d.properties.Name);
+        d.popdata = (subzone != undefined) ? parseInt(subzone.Population) : 0;
+    });
 
-// Merge pop data with map data
-mapData.forEach(d => {
-  let subzone = popData.find(e => e.Subzone.toUpperCase() == d.properties.Name);
-  d.popdata = (subzone != undefined) ? parseInt(subzone.Population) : 0;
-})
+    let projection = d3.geoMercator()
+        .center([103.851959, 1.290270])
+        .fitExtent([[20, 20], [980, 580]], data[0]);
 
-console.log(mapData);
+    let geopath = d3.geoPath().projection(projection);
 
-// Color scale based on population
-let colorScale = d3.scaleSequential(d3.interpolateGreens)
-    .domain([0, d3.max(mapData, d => d.popdata)]);
+    // Define color scale based on population
+    let colorScale = d3.scaleQuantize()
+        .domain([0, d3.max(mapData, d => d.popdata)])
+        .range(d3.schemeGreens[9]);
 
-// Map and projection
-let projection = d3.geoMercator()
-    .center([103.851959, 1.290270])
-    .fitExtent([[20, 20], [980, 580]], data[0]);
+    svg.append("g")
+        .attr("id", "districts")
+        .selectAll("path")
+        .data(mapData)
+        .enter()
+        .append("path")
+        .attr("d", geopath)
+        .attr("stroke", "black")
+        .attr("fill", d => colorScale(d.popdata))
+        .on("mouseover", function(event, d) {
+            d3.select(this).attr("stroke", "yellow");
+        })
+        .on("mouseout", function(event, d) {
+            d3.select(this).attr("stroke", "black");
+        })
+        .on("click", function(event, d) {
+            svg.selectAll("path").attr("stroke", "black");  // Reset previous clicks
+            d3.select(this).attr("stroke", "red");
+        });
 
-let geopath = d3.geoPath().projection(projection);
+    // Add legend
+    let legend = svg.append("g")
+        .attr("transform", "translate(20, 20)");
 
-svg.append("g")
-    .attr("id", "districts")
-    .selectAll("path")
-    .data(mapData)
-    .enter()
-    .append("path")
-    .attr("d", geopath)
-    .attr("stroke", "black")
-    .attr("fill", d => colorScale(d.popdata)); // Apply color based on population
-})
+    legend.selectAll("rect")
+        .data(colorScale.range())
+        .enter()
+        .append("rect")
+        .attr("width", 20)
+        .attr("height", 20)
+        .attr("x", (d, i) => i * 25)
+        .attr("fill", d => d);
 
-</script>
+    legend.selectAll("text")
+        .data(colorScale.domain())
+        .enter()
+        .append("text")
+        .attr("x", (d, i) => i * 25)
+        .attr("y", 25)
+        .text(d => Math.round(d));
+});
