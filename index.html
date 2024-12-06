@@ -27,7 +27,7 @@
     }
     .color-bar {
       position: fixed;
-      bottom: 40px; /* 调整位置 */
+      bottom: 40px; /* 调整颜色条整体位置 */
       right: 80px;
       width: 30px; /* 颜色条宽度 */
       height: 200px; /* 颜色条高度 */
@@ -40,9 +40,9 @@
     }
     .color-bar .legend {
       position: absolute;
-      bottom: -15px; /* 微调数字位置，使其与颜色条对齐 */
-      left: 35px; /* 让数字刻度在右侧 */
-      font-size: 10px; /* 字号变小 */
+      bottom: 0; /* 数字容器与颜色条对齐 */
+      left: 35px; /* 数字显示在颜色条右侧 */
+      font-size: 10px; /* 字号调整 */
       color: #4f4f4f; /* 深灰色 */
       display: flex;
       flex-direction: column;
@@ -50,7 +50,7 @@
       height: 100%;
     }
     .color-bar .legend span {
-      text-align: left;
+      transform: translateY(-50%); /* 使数字与刻度线对齐 */
     }
     .color-bar .scale-line {
       position: absolute;
