@@ -61,6 +61,32 @@
       background: linear-gradient(to top, #ffffff, #006400); /* 刻度尺的渐变 */
       z-index: 5;
     }
+    /* 黑色线条表示刻度 */
+    .color-bar .scale-line {
+      position: absolute;
+      bottom: -5px; /* 将黑线放在刻度尺的下方 */
+      left: 0;
+      width: 100%;
+      height: 1px;
+      border-top: 2px solid black;
+      z-index: 6;
+    }
+    .color-bar .scale-line span {
+      position: absolute;
+      bottom: 10px;
+      width: 0;
+      height: 0;
+      border-left: 1px solid black;
+      border-bottom: 2px solid black;
+    }
+    .color-bar .scale-line span:nth-child(1) { left: 0%; }
+    .color-bar .scale-line span:nth-child(2) { left: 14%; }
+    .color-bar .scale-line span:nth-child(3) { left: 28%; }
+    .color-bar .scale-line span:nth-child(4) { left: 42%; }
+    .color-bar .scale-line span:nth-child(5) { left: 57%; }
+    .color-bar .scale-line span:nth-child(6) { left: 71%; }
+    .color-bar .scale-line span:nth-child(7) { left: 85%; }
+    .color-bar .scale-line span:nth-child(8) { left: 100%; }
   </style>
 </head>
 <body>
@@ -88,6 +114,16 @@
       <span>120,000</span>
     </div>
     <div class="scale"></div> <!-- 刻度尺 -->
+    <div class="scale-line">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
