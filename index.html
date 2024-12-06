@@ -28,11 +28,11 @@
     .color-bar {
       position: fixed;
       bottom: 20px;
-      right: 80px; /* 向左调整位置 */
-      width: 30px; /* 颜色条宽度 */
-      height: 200px; /* 颜色条高度 */
+      right: 50px; /* 颜色条位置稍微左移 */
+      width: 30px;
+      height: 200px;
       border-radius: 5px;
-      z-index: 10; /* 确保颜色条在其他元素之上 */
+      z-index: 10; /* 确保颜色条在其他元素上方 */
     }
     .color-bar svg {
       width: 100%;
@@ -41,20 +41,13 @@
     .color-bar .legend {
       position: absolute;
       bottom: -30px;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
       font-size: 14px;
       color: #4f4f4f;
     }
-    .color-bar .legend span {
-      position: absolute;
-    }
-    .color-bar .legend span:nth-child(1) { left: 0%; }
-    .color-bar .legend span:nth-child(2) { left: 15%; }
-    .color-bar .legend span:nth-child(3) { left: 30%; }
-    .color-bar .legend span:nth-child(4) { left: 45%; }
-    .color-bar .legend span:nth-child(5) { left: 60%; }
-    .color-bar .legend span:nth-child(6) { left: 75%; }
-    .color-bar .legend span:nth-child(7) { left: 90%; }
-    .color-bar .legend span:nth-child(8) { right: 0%; }
   </style>
 </head>
 <body>
@@ -90,6 +83,7 @@
     let svg = d3.select("#map")
         .attr("viewBox", "0 0 " + width + " " + height);
 
+    // 加载地图数据
     Promise.all([d3.json("sgmap.json"), d3.csv("population2023.csv")]).then(data => {
       let mapData = data[0].features;
       let popData = data[1];
@@ -133,10 +127,4 @@
             d3.select("body").select("div").remove();
           });
     });
-  </script>
-</body>
-</html>
-
-  </script>
-</body>
-</html>
+  
