@@ -1,10 +1,10 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <style>
     body {
-      background: linear-gradient(to bottom, #d0f0c0, #e0f7e0, #ffffff); /* 浅绿色到更浅绿色到白色渐变 */
+      background: linear-gradient(to bottom, #ffffff, #d0f0c0); /* 从白色到浅绿色渐变背景 */
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
@@ -32,6 +32,7 @@
       width: 20px; /* 颜色条宽度 */
       height: 200px; /* 颜色条高度 */
       border-radius: 5px;
+      z-index: 10; /* 确保颜色条在其他元素之上 */
     }
     .color-bar svg {
       width: 100%;
@@ -63,12 +64,13 @@
   <h1>Population distribution map of Singapore (2023)</h1>
   <p>This map shows the population distribution of each street in Singapore. The shade of green indicates the population. The darker the green, the more people there are. The lighter the green, the less people there are.</p>
   <svg id="map"></svg>
+  
   <div class="color-bar">
     <svg>
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#ffffff"></stop> <!-- 白色代表0人口 -->
-          <stop offset="100%" stop-color="#d0f0c0"></stop> <!-- 浅绿色代表120,000人口 -->
+          <stop offset="100%" stop-color="#006400"></stop> <!-- 深绿色代表120,000人口 -->
         </linearGradient>
       </defs>
       <rect x="0" y="0" width="100%" height="100%" fill="url(#gradient)" />
@@ -83,6 +85,7 @@
       <span>120,000</span>
     </div>
   </div>
+
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
     let width = 1000, height = 800;
