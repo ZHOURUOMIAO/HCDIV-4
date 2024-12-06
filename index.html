@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -26,11 +26,11 @@
       margin-top: 10px;
     }
     .color-bar {
-      position: absolute;
+      position: fixed;  /* 固定在右下角 */
       bottom: 20px;
       right: 20px;
-      width: 200px; /* 颜色条宽度 */
-      height: 20px; /* 颜色条高度 */
+      width: 20px; /* 颜色条宽度 */
+      height: 200px; /* 颜色条高度 */
       border-radius: 5px;
     }
     .color-bar svg {
@@ -39,19 +39,24 @@
     }
     .color-bar .legend {
       position: absolute;
-      bottom: -25px;
+      bottom: -30px;
       font-size: 14px;
       color: #4f4f4f;
     }
     .color-bar .legend span {
       position: absolute;
     }
-    .color-bar .legend span:nth-child(1) { left: 0; }
-    .color-bar .legend span:nth-child(2) { left: 30%; }
-    .color-bar .legend span:nth-child(3) { left: 50%; }
-    .color-bar .legend span:nth-child(4) { left: 70%; }
-    .color-bar .legend span:nth-child(5) { left: 90%; }
-    .color-bar .legend span:nth-child(6) { right: 0; }
+    .color-bar .legend span:nth-child(1) { left: 0%; }
+    .color-bar .legend span:nth-child(2) { left: 10%; }
+    .color-bar .legend span:nth-child(3) { left: 20%; }
+    .color-bar .legend span:nth-child(4) { left: 30%; }
+    .color-bar .legend span:nth-child(5) { left: 40%; }
+    .color-bar .legend span:nth-child(6) { left: 50%; }
+    .color-bar .legend span:nth-child(7) { left: 60%; }
+    .color-bar .legend span:nth-child(8) { left: 70%; }
+    .color-bar .legend span:nth-child(9) { left: 80%; }
+    .color-bar .legend span:nth-child(10) { left: 90%; }
+    .color-bar .legend span:nth-child(11) { right: 0%; }
   </style>
 </head>
 <body>
@@ -61,9 +66,9 @@
   <div class="color-bar">
     <svg>
       <defs>
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#ffffff"></stop> <!-- 白色代表0人口 -->
-          <stop offset="100%" stop-color="#006400"></stop> <!-- 深绿色代表120,000人口 -->
+          <stop offset="100%" stop-color="#d0f0c0"></stop> <!-- 浅绿色代表120,000人口 -->
         </linearGradient>
       </defs>
       <rect x="0" y="0" width="100%" height="100%" fill="url(#gradient)" />
