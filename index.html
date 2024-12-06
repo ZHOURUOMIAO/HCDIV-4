@@ -26,10 +26,10 @@
       margin-top: 10px;
     }
     .color-bar {
-      position: fixed;  /* 固定在右下角 */
+      position: fixed;
       bottom: 20px;
-      right: 20px;
-      width: 20px; /* 颜色条宽度 */
+      right: 80px; /* 向左调整位置 */
+      width: 30px; /* 颜色条宽度 */
       height: 200px; /* 颜色条高度 */
       border-radius: 5px;
       z-index: 10; /* 确保颜色条在其他元素之上 */
@@ -48,16 +48,13 @@
       position: absolute;
     }
     .color-bar .legend span:nth-child(1) { left: 0%; }
-    .color-bar .legend span:nth-child(2) { left: 10%; }
-    .color-bar .legend span:nth-child(3) { left: 20%; }
-    .color-bar .legend span:nth-child(4) { left: 30%; }
-    .color-bar .legend span:nth-child(5) { left: 40%; }
-    .color-bar .legend span:nth-child(6) { left: 50%; }
-    .color-bar .legend span:nth-child(7) { left: 60%; }
-    .color-bar .legend span:nth-child(8) { left: 70%; }
-    .color-bar .legend span:nth-child(9) { left: 80%; }
-    .color-bar .legend span:nth-child(10) { left: 90%; }
-    .color-bar .legend span:nth-child(11) { right: 0%; }
+    .color-bar .legend span:nth-child(2) { left: 15%; }
+    .color-bar .legend span:nth-child(3) { left: 30%; }
+    .color-bar .legend span:nth-child(4) { left: 45%; }
+    .color-bar .legend span:nth-child(5) { left: 60%; }
+    .color-bar .legend span:nth-child(6) { left: 75%; }
+    .color-bar .legend span:nth-child(7) { left: 90%; }
+    .color-bar .legend span:nth-child(8) { right: 0%; }
   </style>
 </head>
 <body>
@@ -136,6 +133,10 @@
             d3.select("body").select("div").remove();
           });
     });
+  </script>
+</body>
+</html>
+
   </script>
 </body>
 </html>
