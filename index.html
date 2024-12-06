@@ -40,21 +40,18 @@
     }
     .color-bar .legend {
       position: absolute;
-      bottom: -30px;
-      font-size: 14px;
+      top: 0;
+      left: 35px; /* 让数字刻度在右侧 */
+      font-size: 12px;
       color: #4f4f4f;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
     }
     .color-bar .legend span {
-      position: absolute;
+      text-align: left;
     }
-    .color-bar .legend span:nth-child(1) { left: 0%; }
-    .color-bar .legend span:nth-child(2) { left: 15%; }
-    .color-bar .legend span:nth-child(3) { left: 30%; }
-    .color-bar .legend span:nth-child(4) { left: 45%; }
-    .color-bar .legend span:nth-child(5) { left: 60%; }
-    .color-bar .legend span:nth-child(6) { left: 75%; }
-    .color-bar .legend span:nth-child(7) { left: 90%; }
-    .color-bar .legend span:nth-child(8) { right: 0%; }
   </style>
 </head>
 <body>
@@ -136,3 +133,4 @@
   </script>
 </body>
 </html>
+
