@@ -13,10 +13,17 @@
       font-size: 36px; /* 增大标题字体 */
       margin-top: 30px; /* 增加顶部间距 */
     }
+    p {
+      text-align: center; /* 将说明文字居中 */
+      font-family: Arial, sans-serif;
+      font-size: 18px; /* 适当增大说明文字的字体 */
+      margin-top: 10px; /* 增加说明文字的顶部间距 */
+    }
   </style>
 </head>
 <body>
   <h1>Population distribution map of Singapore (2023)</h1> <!-- 增大标题 -->
+  <p>This map shows the population distribution of each street in Singapore. The shade of green indicates the population. The darker the green, the more people there are. The lighter the green, the less people there are.</p> <!-- 新增说明文字 -->
   <svg id="map"></svg>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
@@ -76,4 +83,3 @@
   </script>
 </body>
 </html>
-
